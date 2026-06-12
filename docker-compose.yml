@@ -1,0 +1,68 @@
+services:
+  mariadb:
+    image: mariadb:11
+
+    container_name: research-mariadb
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ai_db
+
+    ports:
+      - "3310:3306"
+
+    healthcheck:
+      test:
+        ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -u root -proot --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  ollama:
+    image: ollama/ollama
+
+    container_name: research-ollama
+
+    ports:
+      - "11434:11434"
+
+    volumes:
+      - ollama_data:/root/.ollama
+
+  assistant-app:
+    build: .
+
+    container_name: research-assistant
+
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+      ollama:
+        condition: service_started
+
+    environment:
+      OLLAMA_NO_CLOUD: "true"
+      OLLAMA_ORIGINS: "*"
+      OLLAMA_MODELS: "/root/.ollama/models"
+      OLLAMA_VULKAN: "0"
+
+      GEMINI_API_URL: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent
+
+      GEMINI_API_KEY:
+      SPRING_AI_OPENAI_API_KEY:
+
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/ai_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+      SPRING_AI_OLLAMA_BASE_URL: http://ollama:11434
+    dns:
+      - 8.8.8.8
+    ports:
+      - "8080:8080"
+
+volumes:
+  ollama_data:
