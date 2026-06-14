@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Null appender - discards all logs -->
+    <appender name="NULL" class="ch.qos.logback.core.helpers.NOPAppender" />
+
+    <root level="OFF">
+        <appender-ref ref="NULL" />
+    </root>
+
+    <!-- Silence all Spring logs for MCP compatibility -->
+    <logger name="org.springframework" level="OFF" />
+    <logger name="org.hibernate" level="OFF" />
+    <logger name="com.zaxxer.hikari" level="OFF" />
+</configuration>
