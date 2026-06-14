@@ -1,4 +1,5 @@
-<img width="1000" height="540" alt="ChatGPT Image Jun 12, 2026, 11_11_57 PM" src="https://github.com/user-attachments/assets/a61c7fed-925b-4077-8d58-e541f05eb260" />
+<img width="1536" height="800" alt="1000449964" src="https://github.com/user-attachments/assets/7d63f5d6-66a9-4557-98bf-c0d0bf66e615" />
+
 
 # 🚀 Multi-LLM Research Assistant
 
@@ -46,17 +47,44 @@ The platform supports multiple AI interaction channels while converging into a u
 
 ---
 
-# 🏗️ Architecture & Workflow
+# 🚀 Multi-LLM Research Assistant
 
+<p align="center">
 
+### Enterprise-Grade Multi-LLM Research Platform powered by Spring AI, Advanced RAG, MCP (Model Context Protocol), Gemini, Groq, Ollama Embeddings, MariaDB Vector Store, Conversation Memory, and Dynamic Tool Calling
 
-### Three Entry Paths → One Intelligent AI Pipeline
+</p>
 
-1. REST API Clients
-2. Custom MCP Endpoint
-3. Standard MCP Server Clients
+<p align="center">
 
-All requests are routed through a common orchestration layer powered by **Spring AI**.
+![Java](https://img.shields.io/badge/Java-17-orange)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3.5-green)
+![Spring AI](https://img.shields.io/badge/Spring_AI-1.0-blue)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED)
+![MariaDB](https://img.shields.io/badge/MariaDB-Vector_Store-blue)
+![MCP](https://img.shields.io/badge/MCP-Enabled-purple)
+
+</p>
+
+---
+
+# 📖 Overview
+
+Multi-LLM Research Assistant is an enterprise-grade AI research platform built using Spring Boot, Spring AI, Advanced Retrieval Augmented Generation (RAG), Model Context Protocol (MCP), Multi-LLM orchestration, Conversation Memory, and Dynamic Tool Calling.
+
+The platform supports multiple AI interaction channels while converging into a unified intelligent processing pipeline.
+
+## Core Capabilities
+
+* Advanced RAG
+* Multi-LLM Processing
+* Conversation Memory
+* MCP Integration
+* Tool Calling
+* Citation Generation
+* Vector Search
+* Docker Deployment
+* Academic Research Support
 
 ---
 
@@ -83,96 +111,300 @@ into a single extensible AI platform.
 
 ---
 
-# 🧠 Internal AI Processing Pipeline
+# 🏗️ Architecture & Workflow
+
+<p align="center">
+<img src="docs/images/research-assistant-architecture.png" width="100%">
+</p>
+
+## Three Entry Paths → One Unified AI Pipeline
+
+The platform supports three independent entry mechanisms:
+
+| Flow   | Entry Point         | Usage                                       |
+| ------ | ------------------- | ------------------------------------------- |
+| Flow 1 | REST API            | Application Clients                         |
+| Flow 2 | Custom MCP Endpoint | Custom UI / Browser Extensions / Postman    |
+| Flow 3 | MCP Server Protocol | Claude Desktop, Gemini Desktop, MCP Clients |
+
+All flows converge into a common AI orchestration pipeline powered by Spring AI.
+
+---
+
+# 🔄 Flow 1 – REST API
+
+Standard application flow.
+
+```http
+POST /api/research/process
+```
+
+Used by:
+
+* Web Applications
+* Mobile Applications
+* External Systems
+* Internal Enterprise Integrations
+
+The request is validated and transformed into a ResearchContext before entering the AI pipeline.
+
+---
+
+# 🔄 Flow 2 – Custom MCP Endpoint
+
+The application exposes a simplified MCP-style endpoint.
+
+```http
+POST /api/mcp/process
+```
+
+Unlike traditional MCP clients, users do not need to manually select a tool.
+
+The controller automatically determines which MCP tool should be executed based on the query content.
+
+## Auto Tool Detection
+
+Example:
 
 ```text
-User Request
-     │
-     ▼
+Summarize this article
+        ↓
+summarizeContent()
+```
 
-Simple RAG Retrieval
-(Vector Search)
-     │
-     ▼
+```text
+Suggest related topics on RAG
+        ↓
+suggestTopics()
+```
 
-Prompt Builder
-     │
-     ▼
+```text
+Explain Advanced RAG
+        ↓
+analyzeContent()
+```
 
-Gemini 2.5 Flash
-(Content Extraction)
-     │
-     ▼
+## Tool Selection Logic
 
-Response Parsing
-     │
-     ▼
+```java
+if(query contains summary keywords)
+    summarizeContent()
 
-Spring AI ChatClient
-     │
-     ├── Memory Advisor
-     ├── Advanced RAG Advisor
-     └── Tool Calling
-              │
-              ▼
+else if(query contains suggest keywords)
+    suggestTopics()
 
-Citation Tool
-(CrossRef API)
-              │
-              ▼
+else
+    analyzeContent()
+```
 
-Groq Qwen3-32B
-(Reasoning Layer)
-              │
-              ▼
+This enables a lightweight MCP experience for:
 
-Final Response
+* Browser Extensions
+* Custom AI Portals
+* Internal Enterprise UIs
+* Postman
+* Third-party Integrations
+
+without requiring users to explicitly choose a tool.
+
+---
+
+# 🔌 Flow 3 – MCP Server Capability
+
+The application also exposes tools through a standard MCP Server implementation.
+
+Compatible with:
+
+* Claude Desktop
+* Gemini Desktop
+* MCP Clients
+* Agentic AI Platforms
+
+The following tool are automatically exposed:
+
+```text
+citationTool()
 ```
 
 ---
 
-# 🔍 Advanced RAG Workflow
+# 🔌 Model Context Protocol (MCP)
+
+The application supports both MCP integration patterns.
+
+## Custom MCP Endpoint
+
+```http
+POST /api/mcp/process
+```
+
+## Standard MCP Server
+
+Compatible with:
+
+* Claude Desktop
+* Gemini Desktop
+* MCP Clients
+* AI Agent Platforms
+
+### MCP Configuration
+
+```properties
+spring.ai.mcp.server.enabled=true
+spring.ai.mcp.server.name=research-assistant
+spring.ai.mcp.server.version=1.0.0
+```
+
+---
+
+# ⚡ Understanding STDIO Transport
+
+Current MCP implementation uses:
 
 ```text
-User Query
-    │
-    ▼
+STDIO (Standard Input / Output)
+```
 
-Query Rewriter
-    │
-    ▼
+Communication occurs through process streams.
 
-Multi Query Generator
-    │
-    ▼
+```text
+Claude Desktop
+        │
+        ▼
+STDIN
+        │
+        ▼
+Research Assistant MCP Server
+        │
+        ▼
+STDOUT
+        │
+        ▼
+Claude Desktop
+```
 
-Embedding Generation
-(Nomic Embeddings)
-    │
-    ▼
+No REST endpoint is required.
 
-MariaDB Vector Search
-    │
-    ▼
+The MCP client launches the Spring Boot MCP Server process and communicates directly through standard input and output streams.
 
-Top-K Context Retrieval
-    │
-    ▼
+## Benefits
 
-Context Augmentation
-    │
-    ▼
+* Fast Local Communication
+* No Exposed Ports
+* Native Claude Desktop Support
+* Native Gemini Desktop Support
+* Simplified Configuration
+* Secure Local Execution
 
-Prompt Enrichment
-    │
-    ▼
+## Future Enhancement
 
-Groq Qwen3-32B
-(Reasoning Engine)
-    │
-    ▼
+```text
+STDIO
+   ↓
 
-Final Answer
+SSE (Server Sent Events)
+
+   ↓
+
+Remote MCP Hosting
+```
+
+---
+
+# 🤖 Using Claude Desktop with MCP
+
+## Step 1 – Build Application
+
+```bash
+mvn clean install
+```
+
+---
+
+## Step 2 – Locate Generated Jar
+
+```text
+target/research-assistant-0.0.1-SNAPSHOT.jar
+```
+
+---
+
+## Step 3 – Configure Claude Desktop
+
+Update Claude Desktop MCP configuration.
+
+Example:
+
+```json
+{
+  "mcpServers": {
+    "research-assistant": {
+      "command": "java",
+      "args": [
+        "-jar",
+        "C:\\Projects\\Multi-LLM_research_assistant\\target\\research-assistant-0.0.1-SNAPSHOT.jar"
+      ]
+    }
+  }
+}
+```
+
+
+
+# 🧠 Common AI Processing Pipeline
+
+```text
+1. User Request
+
+        ↓
+
+2. Simple RAG
+   Vector Search (TopK = 1)
+
+        ↓
+
+3. Prompt Builder
+
+        ↓
+
+4. Primary LLM
+   Gemini 2.5 Flash
+   (Content Extraction)
+
+        ↓
+
+5. Structured Output
+
+        ↓
+
+6. Advanced RAG
+
+   • Query Rewrite
+   • Multi Query
+   • Vector Search (TopK = 5)
+   • Context Augmentation
+
+        ↓
+
+7. Secondary LLM
+   Groq Qwen3-32B
+
+        ↓
+
+8. Groq Decision
+
+   • Answer Directly
+   • Invoke Citation Tool
+
+        ↓
+
+9. CitationMcpTool
+
+   CrossRef API
+
+        ↓
+
+10. Final Response
 ```
 
 ---
@@ -190,17 +422,18 @@ Final Answer
 
 Instead of forcing one model to handle every task:
 
-* **Gemini** extracts and structures information.
-* **Groq** performs deep reasoning and answer generation.
-* **Ollama Nomic** generates vector embeddings.
-* **Spring AI** orchestrates the entire workflow.
+* Gemini extracts and structures information.
+* Groq performs deep reasoning and answer generation.
+* Ollama Nomic generates vector embeddings.
+* Spring AI orchestrates the complete workflow.
 
-This approach improves:
+### Benefits
 
-* Response Quality
+* Better Response Quality
 * Scalability
 * Vendor Independence
 * Cost Optimization
+* Specialized Processing
 
 ---
 
@@ -243,41 +476,7 @@ Citation Data
 LLM Response
 ```
 
-### Future Extensions
-
-* Web Search Tool
-* Knowledge Graph Tool
-* Enterprise APIs
-* Database Retrieval Tools
-
----
-
-# 🔌 Model Context Protocol (MCP)
-
-The application supports both MCP integration patterns.
-
-## Custom MCP Endpoint
-
-```http
-POST /mcp
-```
-
-## Standard MCP Server
-
-Compatible with:
-
-* Claude Desktop
-* Gemini Desktop
-* MCP Clients
-* AI Agent Platforms
-
-### Configuration
-
-```properties
-spring.ai.mcp.server.enabled=true
-spring.ai.mcp.server.name=research-assistant
-spring.ai.mcp.server.version=1.0.0
-```
+Groq decides whether a citation is required and invokes the CitationMcpTool when necessary.
 
 ---
 
@@ -299,86 +498,180 @@ spring.ai.mcp.server.version=1.0.0
 
 ---
 
-# 📂 Project Structure
+# 🗂️ Project Structure
 
 ```text
 src/main/java/com/research/assistant
 
 ├── controller
-│   └── ResearchController
+│   ├── ResearchController.java
+│   └── McpController.java
 │
 ├── service
-│   ├── ResearchService
-│   ├── RagService
-│   ├── AdvancedRAGService
-│   └── DocumentLoaderService
-│
-├── config
-│   ├── ChatModelConfig
-│   ├── EmbeddingConfig
-│   ├── SpringAIConfig
-│   ├── McpToolConfig
-│   └── WebClientConfig
+│   ├── ResearchService.java
+│   ├── RagService.java
+│   ├── AdvancedRAGService.java
+│   └── DocumentLoaderService.java
 │
 ├── tools
-│   ├── ResearchMcpTools
-│   └── CitationMcpTool
+│   ├── ResearchMcpTools.java
+│   └── CitationMcpTool.java
+│
+├── config
+│   ├── ChatModelConfig.java
+│   ├── EmbeddingConfig.java
+│   ├── SpringAIConfig.java
+│   ├── McpToolConfig.java
+│   └── WebClientConfig.java
 │
 ├── model
-│   └── ResearchContext
+│   └── ResearchContext.java
 │
 └── DTOcontracts
-    ├── ResearchRequest
-    ├── McpResearchRequest
-    └── GeminiResponse
+    ├── ResearchRequest.java
+    ├── McpResearchRequest.java
+    └── GeminiResponse.java
+
+src/main/resources
+
+├── application.yml
+├── schema.sql
+├── spring-logback.xml
+└── prompts/
 ```
 
 ---
 
-# 🐳 Docker Architecture
+# 🐳 Development Deployment Architecture
+
+The project follows a hybrid deployment model.
 
 ```text
-Docker Compose
-│
-├── research-assistant
-│      Spring Boot Application
-│
-├── research-mariadb
-│      Vector Store
-│      Chat Memory
-│      Metadata
-│
-└── research-ollama
-       Nomic Embeddings
+Research Assistant
+(Spring Boot Local)
+
+        │ JDBC : 3310
+
+        ▼
+
+MariaDB
+(Docker Container)
+
+        │ HTTP : 11434
+
+        ▼
+
+Ollama
+(Docker Container)
 ```
 
-## Containers
+## Why Hybrid?
 
-### research-assistant
+Spring Boot runs locally for:
 
-Main Spring Boot Application
+* Fast Development
+* Easier Debugging
+* Hot Reload
+* Faster Iteration
 
-**Port:** `8080`
+Docker hosts:
 
-### research-mariadb
+* MariaDB
+* Ollama
 
-Stores:
+providing a consistent AI infrastructure environment.
 
-* Embeddings
-* Chat Memory
-* Metadata
+---
 
-**Port:** `3310`
+# 📄 API Contracts
 
-### research-ollama
+## Flow 1 – ResearchController
 
-Provides:
+```http
+POST /api/research/process
+```
+
+### Sample Request
+
+```json
+{
+  "content": "Explain Advanced RAG",
+  "topic": "RAG",
+  "conversationId": "conv-001",
+  "citationRequired": true
+}
+```
+
+---
+
+## Flow 2 – McpController
+
+```http
+POST /api/mcp/process
+```
+
+### Summarization
+
+```json
+{
+  "content": "Summarize the uploaded research paper",
+  "conversationId": "conv-001"
+}
+```
+
+Auto-detected:
 
 ```text
-nomic-embed-text
+summarizeContent()
 ```
 
-**Port:** `11434`
+### Topic Suggestions
+
+```json
+{
+  "content": "Suggest related topics on MCP",
+  "conversationId": "conv-001"
+}
+```
+
+Auto-detected:
+
+```text
+suggestTopics()
+```
+
+### Analysis
+
+```json
+{
+  "content": "Explain Model Context Protocol",
+  "conversationId": "conv-001"
+}
+```
+
+Auto-detected:
+
+```text
+analyzeContent()
+```
+
+### Explicit Tool Selection
+
+```json
+{
+  "content": "Explain Retrieval Augmented Generation",
+  "operations": "analyze",
+  "conversationId": "conv-001"
+}
+```
+
+Supported Operations:
+
+```text
+summarize
+suggest
+analyze
+```
 
 ---
 
@@ -386,152 +679,64 @@ nomic-embed-text
 
 ## Prerequisites
 
-Install the following:
-
 * Java 17
 * Maven 3.9+
 * Docker Desktop
 * Git
 
----
-
-## Clone Repository
+## Start Infrastructure
 
 ```bash
-git clone https://github.com/arup10leo/Multi-LLM_research_assistant.git
-
-cd Multi-LLM_research_assistant
+docker compose up -d mariadb ollama
 ```
-
----
-
-## Build Application
-
-```bash
-mvn clean install
-```
-
-Generated Artifact:
-
-```text
-target/assistant-0.0.1-SNAPSHOT.jar
-```
-
----
 
 ## Pull Embedding Model
-
-Start Ollama:
-
-```bash
-docker compose up ollama
-```
-
-Install Nomic Embeddings:
 
 ```bash
 docker exec -it research-ollama ollama pull nomic-embed-text
 ```
 
-Verify Installation:
+## Build Project
 
 ```bash
-docker exec -it research-ollama ollama list
+mvn clean install
 ```
 
----
-
-## Configure API Keys
-
-### Gemini
-
-```properties
-GEMINI_API_KEY=<your-key>
-```
-
-### Groq
-
-```properties
-SPRING_AI_OPENAI_API_KEY=<your-groq-key>
-```
-
----
-
-## Start Complete Platform
+## Run Application
 
 ```bash
-docker compose up --build
-```
-
-### Startup Sequence
-
-```text
-MariaDB
-   ↓
-Ollama
-   ↓
-Spring Boot
+java -jar target/research-assistant-0.0.1-SNAPSHOT.jar
 ```
 
 ---
 
-# 📡 API Usage
+# 🎯 Key Features
 
-## Research Endpoint
+✅ Three Independent Entry Flows
 
-```http
-POST /api/research/process
-```
+✅ Unified AI Processing Pipeline
 
-### Example Request
+✅ Advanced RAG (Rewrite + MultiQuery + Augmentation)
 
-```json
-{
-  "content": "Explain Retrieval Augmented Generation",
-  "topic": "RAG"
-}
-```
+✅ Multi-LLM Architecture
 
----
+✅ MCP Integration
 
-# ✅ Production Features
+✅ Tool Calling
 
-* Multi-LLM Orchestration
-* Advanced RAG
-* MCP Protocol Support
-* Tool Calling
-* Citation Generation
-* Vector Search
-* Conversation Memory
-* Docker Deployment
-* Local Embeddings
-* Spring AI Integration
+✅ Citation Generation
+
+✅ Conversation Memory
+
+✅ MariaDB Vector Store
+
+✅ Ollama Embeddings
+
+✅ Docker Support
+
+✅ Claude Desktop Integration
+
+✅ Gemini Desktop Integration
 
 ---
-
-# 🔮 Roadmap
-
-* Streaming Responses (SSE)
-* Hybrid Search
-* Re-Ranking Models
-* Agentic Workflows
-* OpenTelemetry
-* Prometheus Monitoring
-* Grafana Dashboards
-* LLM Routing Strategy
-* Multi-Agent Architecture
-
----
-
-# 👨‍💻 Author
-
-**Arup Sarkar**
-
-Enterprise AI Research Platform built using:
-
-**Spring AI • Advanced RAG • MCP • Gemini • Groq • Ollama • MariaDB Vector Search**
-
----
-
-⭐ If you found this project useful, consider giving it a star on GitHub.
 
